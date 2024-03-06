@@ -1,4 +1,6 @@
 import java.awt.Color;
+import static java.lang.Math.sqrt;
+import java.util.*;
 
 public class Lecture18 {
 
@@ -24,29 +26,59 @@ public class Lecture18 {
     System.out.println(p1.getColor());
 
     // Put your answer for #26 here:
+    Rectangle r = new Rectangle(1, 2);
+    Circle c = new Circle(3);
+    Triangle t = new Triangle(4,5);
 
+    System.out.println(r.getSideCount());
+    System.out.println(c.getSideCount());
+    System.out.println(t.getSideCount());
 
     // EXERCISES:
 
     // Put your answer for #15 in this repo:
+    Octagon o = new Octagon(8);
+    System.out.println(o.getSideCount());
+    System.out.println(o.getArea());
+    System.out.println(o.getPerimeter());
 
     // Put your answer for #16 in this repo:
+    Hexagon h = new Hexagon(8);
+    System.out.println(h.getSideCount());
+    System.out.println(h.getArea());
+    System.out.println(h.getPerimeter());
+
 
     // Put your answer for #18 in this repo:
+    int x = 0;
+    SequentialIncrementer si = new SequentialIncrementer();
+    RandomIncrementer ri = new RandomIncrementer();
+
+    si.increment();
+    si.increment();
+    System.out.println(si.getValue());
+
+    ri.increment();
+    System.out.println(ri.getValue());
   }
 }
-
+// Shape interface
 interface Shape {
   public int getSideCount();
 }
 
 // RECTANGLE CLASS
-class Rectangle {
+class Rectangle implements Shape {
   private double length, width;
+  private final int SIDES = 4;
 
   public Rectangle(double length, double width) {
     this.length = length;
     this.width = width;
+  }
+
+  public int getSideCount() {
+    return SIDES;
   }
 
   public double getArea() {
@@ -71,11 +103,15 @@ class Rectangle {
 // RECTANGLE CLASS
 
 // CIRCLE CLASS
-class Circle {
+class Circle implements Shape {
   private double radius;
+  private final int SIDES = 0;
 
   public Circle(double radius) {
     this.radius = radius;
+  }
+  public int getSideCount() {
+    return SIDES;
   }
 
   public double getPerimeter() {
@@ -100,6 +136,7 @@ class Circle {
 // TRIANGLE CLASS
 class Triangle implements Shape {
   private double base, height;
+  private final int SIDES = 3;
 
   public Triangle(double base, double height) {
     this.base = base;
@@ -107,7 +144,7 @@ class Triangle implements Shape {
   }
 
   public int getSideCount() {
-    return 0;
+    return SIDES;
   }
 
   public double getArea() {
@@ -126,3 +163,81 @@ class Triangle implements Shape {
   }
 }
 // TRIANGLE CLASS
+
+// OCTAGON CLASS
+class Octagon implements Shape {
+  private double sideLength;
+  private final int SIDES = 8;
+
+  public Octagon(double sideLength) {
+    this.sideLength = sideLength;
+  }
+
+  public int getSideCount() {
+    return SIDES;
+  }
+
+  public double getArea() {
+    return 2 * (1 + sqrt(2)) * (sideLength * sideLength);
+  }
+  public double getPerimeter() {
+    return sideLength * 8;
+  }
+
+}
+// OCTAGON CLASS
+
+// HEXAGON CLASS
+class Hexagon implements Shape {
+  private double sideLength;
+  private final int SIDES = 6;
+
+  public Hexagon(double sideLength) {
+    this.sideLength = sideLength;
+  }
+
+  public int getSideCount() {
+    return SIDES;
+  }
+
+  public double getArea() {
+    return (3 * sqrt(3)) / 2 * (sideLength * sideLength);
+  }
+
+  public double getPerimeter() {
+    return sideLength * 6;
+  }
+}
+// HEXAGON CLASS
+
+// Increment interface
+interface Incrementable {
+   void increment();
+   int getValue();
+}
+
+class SequentialIncrementer implements Incrementable {
+  private int value = 0;
+
+  public void increment() {
+    this.value++;
+  }
+
+  public int getValue() {
+    return value;
+  }
+
+}
+
+class RandomIncrementer implements Incrementable {
+  int value = 0;
+  public void increment() {
+
+    Random r = new Random();
+    value += r.nextInt();
+  }
+
+  public int getValue() {
+    return value;
+  }
+}
